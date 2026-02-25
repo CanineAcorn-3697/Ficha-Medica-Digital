@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ficha Médica Digital — Segurança na palma da mão</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #E63946;
+    --red-dark: #b02030;
+    --red-light: #ff6b78;
+    --cream: #FDF6EE;
+    --dark: #1a1010;
+    --mid: #4a2828;
+    --gray: #7a6060;
+    --white: #ffffff;
+    --card-bg: #fff9f5;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--dark);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(230,57,70,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    padding: 80px 60px 80px 80px;
+    position: relative;
+    z-index: 2;
+    animation: fadeUp 0.9s ease both;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(230,57,70,0.15);
+    border: 1px solid rgba(230,57,70,0.4);
+    color: var(--red-light);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+  }
+
+  .badge span { width: 6px; height: 6px; background: var(--red); border-radius: 50%; animation: pulse 1.5s ease-in-out infinite; }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--red);
+  }
+
+  .hero p {
+    font-size: 1.05rem;
+    color: #c4a8a8;
+    line-height: 1.75;
+    max-width: 500px;
+    margin-bottom: 40px;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--red);
+    color: white;
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 16px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    box-shadow: 0 4px 24px rgba(230,57,70,0.4);
+  }
+
+  .btn-primary:hover {
+    background: var(--red-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(230,57,70,0.5);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: #c4a8a8;
+    font-family: 'Sora', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 16px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.12);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 12px;
+  }
+
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.3); color: white; }
+
+  /* Phone mockup */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px;
+    position: relative;
+    z-index: 2;
+    animation: fadeUp 0.9s 0.2s ease both;
+  }
+
+  .phone {
+    width: 280px;
+    background: #111;
+    border-radius: 42px;
+    padding: 14px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08), inset 0 0 0 2px #2a2a2a;
+    position: relative;
+  }
+
+  .phone-notch {
+    width: 80px;
+    height: 24px;
+    background: #111;
+    border-radius: 0 0 16px 16px;
+    margin: 0 auto 10px;
+    position: relative;
+    z-index: 5;
+  }
+
+  .phone-screen {
+    background: #fff;
+    border-radius: 30px;
+    overflow: hidden;
+    min-height: 480px;
+    padding: 20px 16px;
+    font-size: 11px;
+  }
+
+  .phone-header {
+    background: var(--red);
+    color: white;
+    text-align: center;
+    padding: 12px;
+    margin: -20px -16px 16px;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .phone-avatar {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, var(--red) 0%, #ff9a9e 100%);
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+
+  .phone-name {
+    text-align: center;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+
+  .phone-tags {
+    display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin-bottom: 14px;
+  }
+
+  .phone-tag {
+    background: #ffeaea;
+    color: var(--red);
+    font-size: 8px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 100px;
+  }
+
+  .phone-section {
+    background: #fafafa;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-left: 3px solid var(--red);
+  }
+
+  .phone-section-title {
+    font-weight: 700;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--red);
+    margin-bottom: 6px;
+  }
+
+  .phone-row { display: flex; gap: 6px; align-items: flex-start; margin-bottom: 4px; font-size: 9px; color: #444; }
+  .phone-row strong { color: #222; }
+
+  .phone-emergency {
+    background: var(--red);
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 8px;
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 100px 80px; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+    color: var(--dark);
+    margin-bottom: 20px;
+  }
+
+  /* ── PROBLEM SECTION ── */
+  .problem {
+    background: var(--white);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .problem-text p {
+    color: var(--gray);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  .problem-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .stat-card {
+    background: var(--card-bg);
+    border: 1px solid #f0e0d8;
+    border-radius: 16px;
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+
+  .stat-card:hover { transform: translateY(-4px); }
+  .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--red); }
+
+  .stat-card .number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem;
+    color: var(--red);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-card p { font-size: 0.85rem; color: var(--gray); line-height: 1.5; }
+
+  /* ── FEATURES ── */
+  .features { background: var(--cream); }
+  .features-header { text-align: center; max-width: 600px; margin: 0 auto 60px; }
+  .features-header p { color: var(--gray); font-size: 1rem; line-height: 1.7; }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .feature-card {
+    background: white;
+    border-radius: 20px;
+    padding: 36px 28px;
+    border: 1px solid #f0e0d8;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(230,57,70,0.12); }
+
+  .feature-icon {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .feature-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 10px;
+  }
+
+  .feature-card p { font-size: 0.9rem; color: var(--gray); line-height: 1.7; }
+
+  /* ── HOW IT WORKS ── */
+  .how {
+    background: var(--dark);
+    color: white;
+  }
+
+  .how .section-title { color: white; }
+  .how-header { max-width: 550px; margin-bottom: 60px; }
+  .how-header p { color: #c4a8a8; font-size: 1rem; line-height: 1.7; margin-top: 12px; }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    counter-reset: step;
+  }
+
+  .step {
+    position: relative;
+    padding-top: 16px;
+  }
+
+  .step::before {
+    counter-increment: step;
+    content: "0" counter(step);
+    font-family: 'DM Serif Display', serif;
+    font-size: 3rem;
+    color: rgba(230,57,70,0.25);
+    display: block;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .step h4 { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 8px; }
+  .step p { font-size: 0.88rem; color: #9a8080; line-height: 1.65; }
+
+  .step-line {
+    position: absolute;
+    top: 48px;
+    right: -12px;
+    width: calc(100% - 20px);
+    height: 1px;
+    background: linear-gradient(to right, rgba(230,57,70,0.5), transparent);
+    pointer-events: none;
+  }
+
+  /* ── PRICING ── */
+  .pricing { background: var(--white); text-align: center; }
+  .pricing .section-title, .pricing .section-label { text-align: center; }
+  .pricing-sub { color: var(--gray); font-size: 1rem; max-width: 500px; margin: 0 auto 60px; line-height: 1.7; }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr 1fr;
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  .plan {
+    background: var(--card-bg);
+    border: 1px solid #f0e0d8;
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: left;
+    transition: transform 0.2s;
+  }
+
+  .plan:hover { transform: translateY(-4px); }
+
+  .plan.featured {
+    background: var(--dark);
+    border-color: var(--red);
+    position: relative;
+    box-shadow: 0 24px 60px rgba(230,57,70,0.25);
+  }
+
+  .plan-ribbon {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--red);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 16px;
+    border-radius: 100px;
+  }
+
+  .plan-name { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); margin-bottom: 8px; }
+  .plan.featured .plan-name { color: #9a8080; }
+
+  .plan-price {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3rem;
+    color: var(--dark);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .plan.featured .plan-price { color: white; }
+
+  .plan-price span { font-family: 'Sora', sans-serif; font-size: 1.2rem; font-weight: 400; }
+
+  .plan-period { font-size: 0.8rem; color: var(--gray); margin-bottom: 28px; }
+  .plan.featured .plan-period { color: #9a8080; }
+
+  .plan-features { list-style: none; margin-bottom: 28px; }
+
+  .plan-features li {
+    font-size: 0.88rem;
+    color: var(--gray);
+    padding: 8px 0;
+    border-bottom: 1px solid #f0e0d8;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .plan.featured .plan-features li { border-color: rgba(255,255,255,0.08); color: #c4a8a8; }
+  .plan-features li::before { content: '✓'; color: var(--red); font-weight: 700; flex-shrink: 0; }
+
+  .plan .btn-primary { width: 100%; justify-content: center; }
+
+  .plan-btn-outline {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: transparent;
+    border: 1.5px solid #e0ccc0;
+    color: var(--mid);
+    font-family: 'Sora', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .plan-btn-outline:hover { border-color: var(--red); color: var(--red); }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials { background: var(--cream); }
+  .testimonials-header { text-align: center; max-width: 500px; margin: 0 auto 60px; }
+  .testimonials-header p { color: var(--gray); font-size: 1rem; line-height: 1.7; margin-top: 12px; }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .testimonial {
+    background: white;
+    border-radius: 20px;
+    padding: 32px 28px;
+    border: 1px solid #f0e0d8;
+  }
+
+  .testimonial-stars { color: var(--red); font-size: 14px; margin-bottom: 16px; letter-spacing: 2px; }
+
+  .testimonial p { font-size: 0.92rem; color: var(--mid); line-height: 1.75; margin-bottom: 20px; font-style: italic; }
+
+  .testimonial-author { display: flex; align-items: center; gap: 12px; }
+  .testimonial-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #ffeaea, var(--red)); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .testimonial-name { font-weight: 700; font-size: 0.88rem; color: var(--dark); }
+  .testimonial-role { font-size: 0.8rem; color: var(--gray); }
+
+  /* ── CTA ── */
+  .cta {
+    background: var(--red);
+    text-align: center;
+    padding: 100px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,255,255,0.08) 0%, transparent 70%);
+  }
+
+  .cta .section-label { color: rgba(255,255,255,0.7); }
+  .cta .section-title { color: white; }
+  .cta p { color: rgba(255,255,255,0.8); max-width: 520px; margin: 0 auto 40px; font-size: 1rem; line-height: 1.75; }
+
+  .cta .btn-primary {
+    background: white;
+    color: var(--red);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  }
+
+  .cta .btn-primary:hover { background: #fff5f5; transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    color: #9a8080;
+    padding: 40px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+  }
+
+  footer a { color: var(--red-light); text-decoration: none; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 20px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(26,16,16,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: padding 0.3s;
+  }
+
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: white;
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--red); }
+
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: #c4a8a8; font-size: 0.88rem; font-weight: 500; text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: white; }
+
+  .nav-cta {
+    background: var(--red);
+    color: white;
+    font-weight: 700;
+    font-size: 0.88rem;
+    padding: 10px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .nav-cta:hover { background: var(--red-dark); }
+
+  /* ── PREVIEW SECTION ── */
+  .preview-section {
+    background: var(--white);
+    padding: 100px 80px;
+  }
+
+  .preview-header {
+    text-align: center;
+    max-width: 580px;
+    margin: 0 auto 52px;
+  }
+
+  .preview-header p {
+    color: var(--gray);
+    font-size: 1rem;
+    line-height: 1.75;
+    margin-top: 12px;
+  }
+
+  .preview-container {
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(26,16,16,0.18), 0 0 0 1px rgba(230,57,70,0.15);
+  }
+
+  .preview-bar {
+    background: #2a1a1a;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .preview-dots { display: flex; gap: 6px; }
+  .preview-dots span {
+    width: 12px; height: 12px; border-radius: 50%;
+  }
+  .preview-dots span:nth-child(1) { background: #ff5f57; }
+  .preview-dots span:nth-child(2) { background: #febc2e; }
+  .preview-dots span:nth-child(3) { background: #28c840; }
+
+  .preview-url {
+    flex: 1;
+    background: #1a0f0f;
+    border-radius: 6px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    color: #9a8080;
+    font-family: monospace;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .preview-open {
+    color: var(--red-light);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+  .preview-open:hover { color: white; }
+
+  .preview-frame-wrap {
+    position: relative;
+    background: #fff;
+    height: 520px;
+    overflow: hidden;
+  }
+
+  .preview-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    pointer-events: none;
+  }
+
+  .preview-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(26,16,16,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .preview-overlay:hover { background: rgba(26,16,16,0.3); }
+
+  .preview-overlay-content {
+    text-align: center;
+    color: white;
+    background: rgba(0,0,0,0.5);
+    padding: 24px 36px;
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .preview-caption {
+    background: #fdf2f0;
+    padding: 14px 20px;
+    font-size: 0.83rem;
+    color: var(--red);
+    font-weight: 600;
+    text-align: center;
+    border-top: 1px solid #f0d8d4;
+  }
+
+  @media (max-width: 900px) {
+    .preview-section { padding: 70px 24px; }
+    .preview-frame-wrap { height: 380px; }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 70px 24px; }
+    .hero { grid-template-columns: 1fr; padding-top: 80px; }
+    .hero-content { padding: 60px 24px 40px; }
+    .hero-visual { padding: 20px 24px 60px; }
+    .problem { grid-template-columns: 1fr; gap: 40px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 24px; }
+    .cta { padding: 70px 24px; }
+    .btn-secondary { display: none; }
+  }
+
+  /* WhatsApp float */
+  .wa-float {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 200;
+    width: 56px;
+    height: 56px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    text-decoration: none;
+    transition: transform 0.2s;
+    animation: fadeUp 1s 0.5s ease both;
+  }
+
+  .wa-float:hover { transform: scale(1.1); }
+
+  /* Scroll fade in */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Ficha<span>Médica</span>.digital</a>
+  <ul class="nav-links">
+    <li><a href="#como-funciona">Como funciona</a></li>
+    <li><a href="#recursos">Recursos</a></li>
+    <li><a href="#precos">Preços</a></li>
+  </ul>
+  <a href="#precos" class="nav-cta">Quero o meu →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="badge"><span></span> Segurança médica digital</div>
+    <h1>Sua ficha médica<br>sempre <em>disponível</em><br>em emergências</h1>
+    <p>Um site pessoal com todas as suas informações médicas organizadas — diagnósticos, medicações, contatos de emergência e orientações para socorristas. Acessível por qualquer celular, sem precisar de aplicativo.</p>
+    <div>
+      <a href="#precos" class="btn-primary">🚑 Quero minha ficha agora</a>
+      <a href="#como-funciona" class="btn-secondary">Ver como funciona</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-header">🚨 Ficha Médica de Emergência</div>
+        <div class="phone-avatar">👤</div>
+        <div class="phone-name">João da Silva</div>
+        <div class="phone-tags">
+          <span class="phone-tag">Diabetes Tipo 1</span>
+          <span class="phone-tag">Hipertensão</span>
+          <span class="phone-tag">Medicação contínua</span>
+        </div>
+        <div class="phone-section">
+          <div class="phone-section-title">💊 Medicação em uso</div>
+          <div class="phone-row">• Metformina · Losartana · AAS</div>
+        </div>
+        <div class="phone-section">
+          <div class="phone-section-title">⚠️ Em caso de emergência</div>
+          <div class="phone-row">Ligue SAMU <strong>192</strong> · Não administre insulina sem orientação</div>
+        </div>
+        <div class="phone-section">
+          <div class="phone-section-title">📞 Contatos</div>
+          <div class="phone-row">Esposa: (11) 9 8888-0000</div>
+          <div class="phone-row">Médico: Dr. Carlos · 3333-0000</div>
+        </div>
+        <div class="phone-emergency">🚑 SAMU — 192</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problema">
+  <div class="problem-text reveal">
+    <div class="section-label">Por que isso importa</div>
+    <h2 class="section-title">Em uma emergência, <em style="font-style:italic;color:var(--red)">segundos</em> fazem diferença</h2>
+    <p>Quando um acidente ou crise acontece, socorristas precisam saber imediatamente: quais medicamentos você usa, se tem alergias, qual seu diagnóstico e quem contatar. Carteiras e documentos se perdem. Aplicativos ficam bloqueados por senha.</p>
+    <p>Sua Ficha Médica Digital está disponível em qualquer celular, sem login, sem aplicativo — basta acessar o link ou escanear um QR Code.</p>
+  </div>
+  <div class="problem-stats reveal">
+    <div class="stat-card">
+      <div class="number">+60%</div>
+      <p>dos brasileiros possuem pelo menos uma condição crônica de saúde</p>
+    </div>
+    <div class="stat-card">
+      <div class="number">15s</div>
+      <p>é o tempo médio que socorristas têm para avaliar a situação inicial</p>
+    </div>
+    <div class="stat-card">
+      <div class="number">72%</div>
+      <p>das pessoas não carregam informações médicas atualizadas consigo</p>
+    </div>
+    <div class="stat-card">
+      <div class="number">24h</div>
+      <p>disponível todos os dias, sem bateria, sem internet obrigatória</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="recursos">
+  <div class="features-header reveal">
+    <div class="section-label">O que está incluso</div>
+    <h2 class="section-title">Tudo que um socorrista precisa saber</h2>
+    <p>Cada ficha é desenvolvida com cuidado e personalizada com todas as suas informações médicas relevantes.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <span class="feature-icon">🏥</span>
+      <h3>Diagnósticos e CID-10</h3>
+      <p>Todas as suas condições listadas com os códigos CID oficiais, facilitando o atendimento médico imediato.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">💊</span>
+      <h3>Medicações em uso</h3>
+      <p>Lista completa de medicamentos, doses e frequência — informação crítica para evitar interações medicamentosas.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">⚡</span>
+      <h3>Alergias e restrições</h3>
+      <p>Alertas visíveis de alergias a medicamentos, alimentos e substâncias para evitar reações graves.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">📞</span>
+      <h3>Contatos de emergência</h3>
+      <p>Familiares e médico responsável com links diretos para ligação com um toque na tela.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">📋</span>
+      <h3>Laudo médico integrado</h3>
+      <p>O relatório completo do seu médico incluído na mesma página, para referência detalhada.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">📱</span>
+      <h3>QR Code para impressão</h3>
+      <p>Gere um QR Code para colocar na bolsa, carteira ou crachá — acesso instantâneo ao seu site.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE PREVIEW -->
+<section class="preview-section" id="exemplo">
+  <div class="preview-header reveal">
+    <div class="section-label">Exemplo real</div>
+    <h2 class="section-title">Veja como fica na prática</h2>
+    <p>Esta é uma ficha real, criada para o Pedro — o criador deste serviço. Navegue pelo site e veja exatamente o que você vai receber.</p>
+  </div>
+  <div class="preview-container reveal">
+    <div class="preview-bar">
+      <div class="preview-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="preview-url">
+        <span>🔒</span>
+        <span>canineacorn-3697.github.io/Laudo/</span>
+      </div>
+      <a href="https://canineacorn-3697.github.io/Laudo/" target="_blank" class="preview-open">Abrir ↗</a>
+    </div>
+    <div class="preview-frame-wrap">
+      <iframe
+        src="https://canineacorn-3697.github.io/Laudo/"
+        class="preview-iframe"
+        title="Exemplo de Ficha Médica Digital"
+        loading="lazy"
+        sandbox="allow-scripts allow-same-origin"
+      ></iframe>
+      <div class="preview-overlay" onclick="this.style.display='none'; document.querySelector('.preview-iframe').style.pointerEvents='all'">
+        <div class="preview-overlay-content">
+          <div style="font-size:3rem;margin-bottom:16px;">👆</div>
+          <p>Clique para interagir com o site</p>
+        </div>
+      </div>
+    </div>
+    <div class="preview-caption">
+      ✅ Site real · Funciona em qualquer celular · Sem aplicativo · Sem login
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="como-funciona">
+  <div class="how-header reveal">
+    <div class="section-label">Como funciona</div>
+    <h2 class="section-title">Fica pronto mais rápido do que você imagina
+    </h2>
+    <p>O processo é simples: você me envia suas informações e eu cuido de todo o resto.</p>
+  </div>
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-line"></div>
+      <h4>Você me envia os dados</h4>
+      <p>Nome, diagnósticos, CID, medicações, contatos e laudo médico — por WhatsApp.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-line"></div>
+      <h4>Eu crio a ficha</h4>
+      <p>Desenvolvo o site personalizado com design profissional, responsivo e otimizado para leitura rápida.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-line"></div>
+      <h4>Revisão com você</h4>
+      <p>Envio uma prévia para você conferir e aprovar. Fazemos quantos ajustes forem necessários.</p>
+    </div>
+    <div class="step reveal">
+      <h4>Publicação e entrega</h4>
+      <p>Seu site vai ao ar com um link exclusivo e você recebe o QR Code para imprimir e usar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="precos">
+  <div class="section-label reveal">Preço</div>
+  <h2 class="section-title reveal">Simples e transparente</h2>
+  <p class="pricing-sub reveal">Pagamento único. Sem mensalidade. Sem taxa de hospedagem. Sua ficha fica no ar indefinidamente.</p>
+  <div style="display:flex;justify-content:center;" class="reveal">
+
+    <div class="plan featured" style="max-width:420px;width:100%;">
+      <div class="plan-ribbon">✅ Tudo incluso</div>
+      <div class="plan-name" style="margin-top:12px;">Ficha Médica Digital Completa</div>
+      <div class="plan-price"><span>R$</span> 250</div>
+      <div class="plan-period">pagamento único · sem mensalidade</div>
+      <ul class="plan-features">
+        <li>Site personalizado com suas informações</li>
+        <li>Diagnósticos com CID-10 e comorbidades</li>
+        <li>Lista completa de medicações em uso</li>
+        <li>Contatos de emergência com 1 toque</li>
+        <li>Laudo médico integrado</li>
+        <li>Seção explicativa sobre a doença</li>
+        <li>Link exclusivo + QR Code para impressão</li>
+        <li>Revisões até sua aprovação</li>
+        <li>Hospedagem gratuita, sem prazo de expiração</li>
+      </ul>
+      <a href="#" class="btn-primary" style="justify-content:center;" onclick="abrirWhatsApp(); return false;">🚑 Quero minha ficha agora</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+
+
+<!-- CTA -->
+<section class="cta">
+  <div style="position:relative;z-index:2">
+    <div class="section-label reveal">Não espere uma emergência</div>
+    <h2 class="section-title reveal">Garanta sua ficha hoje.<br>Sua segurança não pode esperar.</h2>
+    <p class="reveal">Em menos de 48 horas, você terá uma ficha médica profissional, disponível para qualquer pessoa que precisar te ajudar.</p>
+    <a href="#" class="btn-primary reveal" onclick="abrirWhatsApp(); return false;">🚑 Quero minha ficha agora</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>© 2026 FichaMédica.digital · Feito com ❤️ para sua segurança</div>
+  <div>Dúvidas? Fale no <a href="#" onclick="abrirWhatsApp(); return false;">WhatsApp</a></div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a href="#" class="wa-float" onclick="abrirWhatsApp(); return false;" title="Falar no WhatsApp">💬</a>
+
+<script>
+  // Substitua pelo número real de WhatsApp
+  const WHATSAPP_NUMBER = '5562981257463'; // TODO: coloque seu número aqui
+
+  function abrirWhatsApp() {
+    const mensagem = 'Olá! Tenho interesse em criar minha *Ficha Médica Digital* por R$ 250. Pode me dar mais informações?';
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, '_blank');
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
