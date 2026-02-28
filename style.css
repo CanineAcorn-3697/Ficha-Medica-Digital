@@ -954,10 +954,19 @@ nav {
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   nav {
-    padding: 16px 24px;
+    padding: 12px 16px;
   }
   .nav-links {
     display: none;
+  }
+  .nav-cta {
+    font-size: 0.78rem;
+    padding: 8px 14px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .nav-logo {
+    font-size: 1.1rem;
   }
   section {
     padding: 56px 20px;
@@ -1007,18 +1016,25 @@ nav {
 
   /* Smaller feature cards */
   .feature-card {
-    padding: 22px 18px;
-    border-radius: 14px;
+    padding: 14px 14px;
+    border-radius: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
   }
   .feature-icon {
-    font-size: 1.7rem;
-    margin-bottom: 12px;
+    font-size: 1.4rem;
+    margin-bottom: 0;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
   .feature-card h3 {
-    font-size: 0.92rem;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
   }
   .feature-card p {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
+    line-height: 1.5;
   }
 
   /* Smaller stat cards */
@@ -1079,10 +1095,10 @@ nav {
   }
   .features-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
   }
   .feature-card {
-    padding: 18px 16px;
+    padding: 12px 14px;
   }
   .steps {
     grid-template-columns: 1fr;
